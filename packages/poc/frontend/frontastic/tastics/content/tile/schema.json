@@ -1,0 +1,138 @@
+{
+  "tasticType": "commercetools/ui/content/tile",
+  "name": "commercetools UI tile",
+  "icon": "image",
+  "category": "Content",
+  "schema": [
+    {
+      "name": "Image",
+      "helpText": "Customize your image",
+      "fields": [
+        {
+          "label": "Image",
+          "field": "image",
+          "type": "media",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Message",
+      "helpText": "Customize your tile message",
+      "fields": [
+        {
+          "label": "Title",
+          "field": "title",
+          "type": "string",
+          "translatable": true,
+          "required": false
+        },
+        {
+          "label": "Title color",
+          "field": "titleColor",
+          "type": "enum",
+          "values": [
+            {
+              "name": "White",
+              "value": "text-white"
+            },
+            {
+              "name": "Grey",
+              "value": "text-gray-400"
+            },
+            {
+              "name": "Black",
+              "value": "text-black"
+            }
+          ]
+        },
+        {
+          "label": "Title font family",
+          "field": "titleFont",
+          "type": "enum",
+          "values": [
+            {
+              "name": "Sans-serif",
+              "value": "font-sans"
+            },
+            {
+              "name": "Serif",
+              "value": "font-serif"
+            },
+            {
+              "name": "Mono",
+              "value": "font-mono"
+            }
+          ]
+        },
+        {
+          "label": "Subtitle",
+          "field": "subtitle",
+          "type": "string",
+          "translatable": true,
+          "required": false
+        },
+        {
+          "label": "Subtitle color",
+          "field": "subtitleColor",
+          "type": "enum",
+          "values": [
+            {
+              "name": "White",
+              "value": "text-white"
+            },
+            {
+              "name": "Grey",
+              "value": "text-gray-400"
+            },
+            {
+              "name": "Black",
+              "value": "text-black"
+            }
+          ]
+        },
+        {
+          "label": "Subtitle font family",
+          "field": "subtitleFont",
+          "type": "enum",
+          "values": [
+            {
+              "name": "Sans-serif",
+              "value": "font-sans"
+            },
+            {
+              "name": "Serif",
+              "value": "font-serif"
+            },
+            {
+              "name": "Mono",
+              "value": "font-mono"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Call to action",
+      "helpText": "Customize your call to action",
+      "fields": [
+        {
+          "label": "Button label",
+          "field": "ctaLabel",
+          "translatable": true,
+          "type": "string",
+          "required": false,
+          "default": ""
+        },
+        {
+          "label": "Link",
+          "field": "ctaReference",
+          "translatable": false,
+          "required": false,
+          "type": "reference",
+          "default": null
+        }
+      ]
+    }
+  ]
+}

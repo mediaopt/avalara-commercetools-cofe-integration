@@ -1,0 +1,44 @@
+{
+  "schema": [
+    {
+      "name": "Adyen extension",
+      "fields": [
+        {
+          "label": "Merchant account",
+          "field": "EXTENSION_ADYEN_MERCHANT_ACCOUNT",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Base URL",
+          "field": "EXTENSION_ADYEN_BASE_URL",
+          "type": "string",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "API key",
+          "field": "EXTENSION_ADYEN_API_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "Client key",
+          "field": "EXTENSION_ADYEN_CLIENT_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        },
+        {
+          "label": "HMAC key",
+          "field": "EXTENSION_ADYEN_HMAC_KEY",
+          "type": "encrypted",
+          "translatable": false,
+          "required": true
+        }
+      ]
+    }
+  ]
+}
