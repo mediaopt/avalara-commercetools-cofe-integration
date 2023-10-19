@@ -43,3 +43,10 @@ export const countryOptions: CountryOption[] = [
   { display: 'Sweden', data: 'SE' },
   { display: 'Ukraine', data: 'UA' },
 ];
+
+export const getCountryOptions = (countryData: string[]) => {
+  return countryData
+    .map((data) => countryOptions.filter((country) => country.data.toLowerCase() === data.toLowerCase()))
+    .filter((countryArray) => countryArray.length === 1)
+    .map((countryArray) => countryArray[0]);
+};
