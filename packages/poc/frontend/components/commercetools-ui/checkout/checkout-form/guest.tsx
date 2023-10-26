@@ -42,8 +42,11 @@ const CheckoutForm = ({
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
 
   useEffect(() => {
-    if (billingSameAsShipping) updateFormInput('shippingAddress', data.billingAddress);
-    else updateFormInput('shippingAddress', '');
+    if (billingSameAsShipping && data.shippingAddress !== data.billingAddress) {
+      updateFormInput('shippingAddress', data.billingAddress);
+    } else if (data.shippingAddress !== '') {
+      updateFormInput('shippingAddress', '');
+    }
   }, [billingSameAsShipping, data.billingAddress, updateFormInput]);
 
   //active payment method
@@ -51,6 +54,7 @@ const CheckoutForm = ({
 
   //change active payment method
   useEffect(() => {
+    if (data.pay === activePaymentMethod) return;
     updateFormInput('pay', activePaymentMethod);
   }, [activePaymentMethod, updateFormInput]);
 
