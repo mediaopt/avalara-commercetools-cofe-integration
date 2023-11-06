@@ -197,7 +197,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       billing: billingAddress,
       shipping: shippingAddress || billingAddress,
     });
-    await setShippingMethod(shippingMethods?.[0].shippingMethodId);
+    await setShippingMethod(shippingMethods?.[1].shippingMethodId);
     await checkout();
     //TODO: figure out logic here
     router.push('/thank-you');
