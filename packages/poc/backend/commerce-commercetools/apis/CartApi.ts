@@ -798,6 +798,7 @@ export class CartApi extends BaseApi {
         cartDraft[key] = primaryCommercetoolsCart[key];
       }
     }
+    cartDraft['taxMode'] = 'ExternalAmount';
 
     let replicatedCommercetoolsCart = await this.requestBuilder()
       .carts()
