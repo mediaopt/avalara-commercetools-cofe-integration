@@ -97,6 +97,7 @@ export class CartApi extends BaseApi {
       country: locale.country,
       locale: locale.language,
       customerId: account.accountId,
+      taxMode: 'ExternalAmount',
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -152,6 +153,7 @@ export class CartApi extends BaseApi {
       country: locale.country,
       locale: locale.language,
       anonymousId: anonymousId,
+      taxMode: 'ExternalAmount',
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -763,8 +765,7 @@ export class CartApi extends BaseApi {
     const cartDraft: CartDraft = {
       currency: locale.currency,
       country: locale.country,
-      locale: locale.language,
-      taxMode: 'ExternalAmount'
+      locale: locale.language
     };
 
     // TODO: implement a logic that hydrate cartDraft with commercetoolsCart
@@ -780,6 +781,7 @@ export class CartApi extends BaseApi {
       'customerGroup',
       'anonymousId',
       'store',
+      'taxMode',
       'inventoryMode',
       'taxRoundingMode',
       'taxCalculationMode',
