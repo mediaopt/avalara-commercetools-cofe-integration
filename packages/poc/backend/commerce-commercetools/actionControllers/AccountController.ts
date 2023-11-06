@@ -66,7 +66,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
     throw error;
   }
 
-  /*if (!account.confirmed) {
+  if (!account.confirmed) {
     // If needed, the account confirmation email can be requested using
     // the endpoint action/account/requestConfirmationEmail.
     const response: Response = {
@@ -79,7 +79,7 @@ async function loginAccount(request: Request, actionContext: ActionContext, acco
     };
 
     return response;
-  }*/
+  }
 
   const response: Response = {
     statusCode: 200,
