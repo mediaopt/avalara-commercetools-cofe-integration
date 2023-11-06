@@ -764,6 +764,7 @@ export class CartApi extends BaseApi {
       currency: locale.currency,
       country: locale.country,
       locale: locale.language,
+      taxMode: 'ExternalAmount'
     };
 
     // TODO: implement a logic that hydrate cartDraft with commercetoolsCart
@@ -780,7 +781,6 @@ export class CartApi extends BaseApi {
       'anonymousId',
       'store',
       'inventoryMode',
-      'taxMode',
       'taxRoundingMode',
       'taxCalculationMode',
       'shippingAddress',
@@ -798,7 +798,6 @@ export class CartApi extends BaseApi {
         cartDraft[key] = primaryCommercetoolsCart[key];
       }
     }
-    cartDraft['taxMode'] = 'ExternalAmount';
 
     let replicatedCommercetoolsCart = await this.requestBuilder()
       .carts()
