@@ -87,9 +87,9 @@ export class CartMapper {
         ),
         totalPrice: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.totalPrice),
         taxedPrice: {
-          totalNet: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.taxedPrice.totalNet),
-          totalGross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.taxedPrice.totalGross),
-          totalTax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.taxedPrice.totalTax)
+          totalNet: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem?.taxedPrice?.totalNet),
+          totalGross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem?.taxedPrice?.totalGross),
+          totalTax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem?.taxedPrice?.totalTax)
         },
         variant: ProductMapper.commercetoolsProductVariantToVariant(commercetoolsLineItem.variant, locale),
         isGift:
@@ -452,9 +452,9 @@ export class CartMapper {
     }
 
     return {
-      amount: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice.totalNet),
-      gross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice.totalGross),
-      tax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice.totalTax),
+      amount: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice?.totalNet),
+      gross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice?.totalGross),
+      tax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice?.totalTax),
       taxPortions: commercetoolsTaxedPrice.taxPortions.map((commercetoolsTaxPortion) => {
         const taxPortion: TaxPortion = {
           amount: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxPortion.amount),
