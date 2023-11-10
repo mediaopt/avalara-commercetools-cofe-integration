@@ -1,7 +1,7 @@
 import { Discount } from './Discount';
 import { Variant } from '../product/Variant';
 import { Money } from '../product/Money';
-import { TaxedPrice } from './taxedPrice';
+import { TaxedPrice } from './TaxedPrice';
 
 export interface LineItem {
   lineItemId?: string;

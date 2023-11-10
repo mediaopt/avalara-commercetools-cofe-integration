@@ -6,7 +6,6 @@ import { Discount } from './Discount';
 import { Tax } from './Tax';
 import { ShippingInfo } from './ShippingInfo';
 import { Money } from '../product/Money';
-import { TaxedPrice } from './taxedPrice'
 
 export interface Cart {
   cartId: string;
@@ -21,7 +20,6 @@ export interface Cart {
   payments?: Payment[];
   discountCodes?: Discount[];
   taxed?: Tax;
-  taxedPrice?: TaxedPrice;
 
   // TODO: import the logic from Cart.php
 }

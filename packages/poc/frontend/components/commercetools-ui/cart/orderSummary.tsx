@@ -54,10 +54,9 @@ const OrderSummary = ({
     />,
   ];
 
-  const totalTaxes = cart?.taxedPrice.totalTax.centAmount;
-  console.log(cart?.taxedPrice.totalGross.centAmount)
+  const totalTaxes = cart?.taxed?.tax?.centAmount;
 
-  const productPrice = cart?.lineItems?.reduce((a, b: LineItem) => a + b.totalPrice.centAmount, 0);
+  const productPrice = cart?.lineItems?.reduce((a, b: LineItem) => a + b.taxedPrice.totalGross.centAmount, 0);
 
   const discountPrice =
     cart?.lineItems?.reduce((a, b) => {
@@ -98,7 +97,7 @@ const OrderSummary = ({
             </dt>
             <dd>
               <Price
-                price={cart?.shippingInfo?.price || {}}
+                price={cart?.shippingInfo?.taxedPrice.totalGross || {}}
                 className="text-sm font-medium text-gray-900 dark:text-light-100"
               />
             </dd>

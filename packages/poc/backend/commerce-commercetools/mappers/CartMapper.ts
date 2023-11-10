@@ -86,6 +86,11 @@ export class CartMapper {
           defaultLocale,
         ),
         totalPrice: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.totalPrice),
+        taxedPrice: {
+          totalNet: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.taxedPrice.totalNet),
+          totalGross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.taxedPrice.totalGross),
+          totalTax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsLineItem.taxedPrice.totalTax)
+        },
         variant: ProductMapper.commercetoolsProductVariantToVariant(commercetoolsLineItem.variant, locale),
         isGift:
           commercetoolsLineItem?.lineItemMode !== undefined && commercetoolsLineItem.lineItemMode === 'GiftLineItem',
@@ -187,6 +192,11 @@ export class CartMapper {
     return {
       ...shippingMethod,
       price: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingInfo.price),
+      taxedPrice: {
+        totalNet: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingInfo?.taxedPrice?.totalNet),
+        totalGross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingInfo?.taxedPrice?.totalGross),
+        totalTax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsShippingInfo?.taxedPrice?.totalTax)
+      },
       discounts:
         commercetoolsShippingInfo.discountedPrice?.includedDiscounts?.map((discount) => discount.discountedAmount) ??
         [],
@@ -443,6 +453,8 @@ export class CartMapper {
 
     return {
       amount: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice.totalNet),
+      gross: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice.totalGross),
+      tax: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxedPrice.totalTax),
       taxPortions: commercetoolsTaxedPrice.taxPortions.map((commercetoolsTaxPortion) => {
         const taxPortion: TaxPortion = {
           amount: ProductMapper.commercetoolsMoneyToMoney(commercetoolsTaxPortion.amount),
