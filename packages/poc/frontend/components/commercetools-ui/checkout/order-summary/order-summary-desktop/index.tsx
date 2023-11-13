@@ -64,7 +64,7 @@ const DesktopOrderSummary = ({
                   {lineItem.name}
                 </h3>
                 <div className="flex space-x-4">
-                  <Price price={lineItem.price} className="text-gray-900 dark:text-light-100" />
+                  <Price price={lineItem?.taxedPrice?.totalGross|| lineItem.price} className="text-gray-900 dark:text-light-100" />
                   {lineItem.count && <p className="text-gray-900 dark:text-light-100">{`x${lineItem.count}`}</p>}
                 </div>
                 {lineItem.variant.attributes?.color && (
@@ -118,7 +118,7 @@ const DesktopOrderSummary = ({
               <Price
                 price={cart.lineItems.reduce(
                   (prev, current) =>
-                    CurrencyHelpers.addCurrency(prev, CurrencyHelpers.multiplyCurrency(current.price, current.count)),
+                    CurrencyHelpers.addCurrency(prev, CurrencyHelpers.multiplyCurrency(current?.taxedPrice?.totalGross || current.price, current.count)),
                   {
                     fractionDigits: cart.lineItems[0].price.fractionDigits,
                     centAmount: 0,
@@ -155,13 +155,13 @@ const DesktopOrderSummary = ({
           <div className="flex justify-between">
             <dt>{formatCheckoutMessage({ id: 'shipping', defaultMessage: 'Shipping' })}</dt>
             <dd>
-              <Price price={selectedShipping?.rates?.[0]?.price || {}} className="text-gray-900 dark:text-light-100" />
+              <Price price={cart?.shippingInfo?.taxedPrice?.totalGross || selectedShipping?.rates?.[1]?.price || {}} className="text-gray-900 dark:text-light-100" />
             </dd>
           </div>
           <div className="flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900 dark:text-light-100">
             <dt className="text-base">{formatCheckoutMessage({ id: 'total', defaultMessage: 'Total' })}</dt>
             <dd className="text-base">
-              <Price price={CurrencyHelpers.addCurrency(cart.sum, selectedShipping?.rates?.[0]?.price || {})} />
+              <Price price={CurrencyHelpers.addCurrency(cart?.taxed?.gross?? cart.sum, cart?.taxed?.gross? {centAmount: 0, currencyCode: "EUR"} : selectedShipping?.rates?.[1]?.price || {})} />
             </dd>
           </div>
         </dl>

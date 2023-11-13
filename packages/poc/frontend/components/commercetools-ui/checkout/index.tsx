@@ -198,9 +198,14 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       shipping: shippingAddress || billingAddress,
     });
     await setShippingMethod(shippingMethods?.[1].shippingMethodId);
-    await checkout();
     //TODO: figure out logic here
-    router.push('/thank-you');
+    if (data?.shippingInfo && data?.shippingAddress) {
+      await checkout();
+      router.push('/thank-you')
+    } else {
+      router.push('/checkout')
+    }
+    ;
   };
 
   if (!data?.lineItems || data.lineItems.length < 1) {
@@ -216,7 +221,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
         editCartItem={editLineItem}
         goToProductPage={goToProductPage}
         removeCartItem={removeLineItem}
-        selectedShipping={shippingMethods?.[0]}
+        selectedShipping={shippingMethods?.[1]}
         someOutOfStock={someOutOfStock}
       />
       <DesktopOrderSummary
@@ -224,7 +229,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
         editCartItem={editLineItem}
         goToProductPage={goToProductPage}
         removeCartItem={removeLineItem}
-        selectedShipping={shippingMethods?.[0]}
+        selectedShipping={shippingMethods?.[1]}
         someOutOfStock={someOutOfStock}
       />
 
@@ -240,7 +245,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
                 id: 'pay',
                 defaultMessage: 'Pay',
               })} ${CurrencyHelpers.formatForCurrency(
-                CurrencyHelpers.addCurrency(data.sum, shippingMethods?.[0]?.rates?.[0]?.price || {}),
+                CurrencyHelpers.addCurrency(data?.taxed?.gross?? data.sum, data?.taxed?.gross? {centAmount: 0, currencyCode: "EUR"} : shippingMethods?.[1]?.rates?.[1]?.price || {}),
               )}`}
               updateFormInput={updateFormInput}
               submitForm={submitForm}
@@ -256,7 +261,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
                 id: 'pay',
                 defaultMessage: 'Pay',
               })} ${CurrencyHelpers.formatForCurrency(
-                CurrencyHelpers.addCurrency(data.sum, shippingMethods?.[0]?.rates?.[0]?.price || {}),
+                CurrencyHelpers.addCurrency(data?.taxed?.gross?? data.sum, data?.taxed?.gross? {centAmount: 0, currencyCode: "EUR"} : shippingMethods?.[1]?.rates?.[1]?.price || {}),
               )}`}
               updateFormInput={updateFormInput}
               submitForm={submitForm}
