@@ -18,7 +18,6 @@ import {
   OrderFromCartDraft,
   PaymentDraft,
   PaymentUpdateAction,
-  GraphQLRequest,
 } from '@commercetools/platform-sdk';
 import { CartMapper } from '../mappers/CartMapper';
 import { LineItem } from '@Types/cart/LineItem';
@@ -39,7 +38,6 @@ import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeErr
 import { Context } from '@frontastic/extension-types';
 import { ProductApi } from './ProductApi';
 import axios from 'axios';
-import fetch from 'node-fetch';
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
@@ -475,7 +473,7 @@ export class CartApi extends BaseApi {
     .get()
     .execute()
     .then(res => res.body.destination)
-    const checkAddressUrl = url.url + '/check-address'
+    const checkAddressUrl = url?.url + '/check-address/'
     const body = {
       address: {
         line1: address.streetName, 
@@ -487,9 +485,7 @@ export class CartApi extends BaseApi {
         textCase: 'mixed'
       }
     };
-    return await fetch(checkAddressUrl, {method: "POST", headers: {
-      'Content-Type': 'application/json'}, body: JSON.stringify(body)})
-      .then(res => res.json())
+    return await axios.post(checkAddressUrl, body).then(res => res.data)
   }
 
   addPayment: (cart: Cart, payment: Payment) => Promise<Cart> = async (cart: Cart, payment: Payment) => {
