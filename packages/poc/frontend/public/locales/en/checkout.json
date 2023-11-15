@@ -26,6 +26,7 @@
   "invoice": "Invoice",
   "edit": "Edit",
   "pay": "Pay",
+  "calculate": "Calculate taxes for",
   "enterYourDiscountCode": "Enter your discount code?",
   "apply": "Apply",
   "shippingMethods": "Shipping methods",

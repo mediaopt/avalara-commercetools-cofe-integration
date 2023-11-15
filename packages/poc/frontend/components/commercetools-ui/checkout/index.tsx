@@ -29,7 +29,8 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
   const { loggedIn } = useAccount();
 
   //cart data
-  const { data, removeItem, getShippingMethods, setShippingMethod, updateCart, checkout } = useCart();
+  const { data, removeItem, getShippingMethods, setShippingMethod, validateShippingAddress, updateCart, checkout } =
+    useCart();
 
   const [shippingMethods, setShippingMethods] = useState<ShippingMethod[]>(null);
 
@@ -155,6 +156,9 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
     return isCheckoutDataValid() && isItemsValid();
   };
 
+  const [isValidAddress, setIsValidAddress] = useState(true);
+  const [isErrorMessage, setIsErrorMessage] = useState('');
+
   const submitForm = async () => {
     //validation for shipping address for guests
     const isValidShippingAddress =
@@ -196,16 +200,23 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       },
       billing: billingAddress,
       shipping: shippingAddress || billingAddress,
+    }).then(async () => {
+      const res = await validateShippingAddress(shippingAddress || billingAddress);
+      if (res?.valid === false) {
+        setIsValidAddress(false);
+        setIsErrorMessage(res?.errorMessage || '');
+      } else if (res?.valid || res?.addressValidation === false) {
+        setIsValidAddress(true);
+      }
     });
     await setShippingMethod(shippingMethods?.[1].shippingMethodId);
     //TODO: figure out logic here
-    if (data?.shippingInfo && data?.shippingAddress) {
+    if (data?.shippingInfo && data?.shippingAddress && isValidAddress) {
       await checkout();
-      router.push('/thank-you')
+      router.push('/thank-you');
     } else {
-      router.push('/checkout')
+      router.push('/checkout');
     }
-    ;
   };
 
   if (!data?.lineItems || data.lineItems.length < 1) {
@@ -227,6 +238,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       <DesktopOrderSummary
         cart={data}
         editCartItem={editLineItem}
+        isAddressValid={isValidAddress}
         goToProductPage={goToProductPage}
         removeCartItem={removeLineItem}
         selectedShipping={shippingMethods?.[1]}
@@ -245,7 +257,12 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
                 id: 'pay',
                 defaultMessage: 'Pay',
               })} ${CurrencyHelpers.formatForCurrency(
-                CurrencyHelpers.addCurrency(data?.taxed?.gross?? data.sum, data?.taxed?.gross? {centAmount: 0, currencyCode: "EUR"} : shippingMethods?.[1]?.rates?.[1]?.price || {}),
+                CurrencyHelpers.addCurrency(
+                  data?.taxed?.gross ?? data.sum,
+                  data?.taxed?.gross
+                    ? { centAmount: 0, currencyCode: 'EUR' }
+                    : shippingMethods?.[1]?.rates?.[1]?.price || {},
+                ),
               )}`}
               updateFormInput={updateFormInput}
               submitForm={submitForm}
@@ -258,13 +275,20 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
           ) : (
             <GuestCheckoutForm
               submitText={`${formatCheckoutMessage({
-                id: 'pay',
+                id: data?.shippingAddress && data?.shippingInfo && isValidAddress ? 'pay' : 'calculate',
                 defaultMessage: 'Pay',
               })} ${CurrencyHelpers.formatForCurrency(
-                CurrencyHelpers.addCurrency(data?.taxed?.gross?? data.sum, data?.taxed?.gross? {centAmount: 0, currencyCode: "EUR"} : shippingMethods?.[1]?.rates?.[1]?.price || {}),
+                CurrencyHelpers.addCurrency(
+                  data?.taxed?.gross && isValidAddress ? data?.taxed?.gross : data.sum,
+                  (isValidAddress && data?.taxed?.gross) || data?.shippingInfo
+                    ? { centAmount: 0, currencyCode: 'EUR' }
+                    : shippingMethods?.[1]?.rates?.[1]?.price || {},
+                ),
               )}`}
               updateFormInput={updateFormInput}
               submitForm={submitForm}
+              isAddressValid={isValidAddress}
+              addressInvalidMessage={isErrorMessage}
               data={checkoutData}
               isFormValid={isValid()}
               shippingCountryOptions={shippingCountryOptions}

@@ -34,6 +34,42 @@ export const getShippingMethods = async () => {
   return await fetchApiHub('/action/cart/getShippingMethods');
 };
 
+export const validateShippingAddress = async (
+  address: Address,
+): Promise<{
+  valid?: boolean;
+  address?: {
+    line1?: string;
+    line2?: string;
+    line3: string;
+    city?: string;
+    postalCode?: string;
+    region?: string;
+    country?: string;
+  };
+  errorMessage?: string;
+  addressValidation?: boolean;
+}> => {
+  const payload = {
+    address: {
+      line1: address.streetName,
+      line2: address.streetNumber,
+      city: address.city,
+      postalCode: address.postalCode,
+      region: address.state,
+      country: address.country,
+    },
+  };
+  const res = await fetchApiHub(
+    '/action/cart/validateShippingAddress',
+    {
+      method: 'POST',
+    },
+    payload,
+  );
+  return res;
+};
+
 export const addItem = async (variant: Variant, quantity: number) => {
   const payload = {
     variant: {

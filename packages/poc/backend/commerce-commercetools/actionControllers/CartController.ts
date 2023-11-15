@@ -294,9 +294,23 @@ export const getShippingMethods: ActionHook = async (request: Request, actionCon
       ...request.sessionData,
     },
   };
-
   return response;
 };
+
+export const validateShippingAddress: ActionHook = async (request: Request, actionContext: ActionContext) => {
+  const cartApi = getCartApi(request, actionContext);
+  const cart = await CartFetcher.fetchCart(cartApi, request, actionContext);
+  const addressValidation = await cartApi.validateShippingAddress(cart.shippingAddress)
+  const response: Response = {
+    statusCode: 200, 
+    body: JSON.stringify(addressValidation),
+    sessionData: {
+      ...request.sessionData,
+      cartId: cart.cartId,
+    },
+  }
+  return response;
+}
 
 export const getAvailableShippingMethods: ActionHook = async (request: Request, actionContext: ActionContext) => {
   const cartApi = getCartApi(request, actionContext);

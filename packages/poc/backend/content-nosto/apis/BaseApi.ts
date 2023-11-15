@@ -61,7 +61,7 @@ export default abstract class BaseApi {
         body,
         headers,
         mode: 'cors',
-      }).then((response: any) => {
+      } as any).then((response: any) => {
         return response.json();
       });
       return responseJson;

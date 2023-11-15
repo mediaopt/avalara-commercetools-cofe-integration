@@ -14,6 +14,8 @@ interface Props {
   readonly data: { [inputName: string]: string };
   readonly isFormValid: boolean;
   readonly shippingCountryOptions: ShippingCountryItem[];
+  readonly isAddressValid: boolean;
+  readonly addressInvalidMessage: string;
 }
 
 const CheckoutForm = ({
@@ -22,6 +24,8 @@ const CheckoutForm = ({
   submitForm,
   data,
   isFormValid,
+  isAddressValid,
+  addressInvalidMessage,
   shippingCountryOptions,
 }: Props) => {
   //i18n messages
@@ -128,6 +132,16 @@ const CheckoutForm = ({
           onChange={updateFormInput}
           containerClassName="col-span-full sm:col-span-4"
         />
+        <div className="col-span-full pt-8">
+          {!isAddressValid ? (
+            <label className="text-base font-medium text-gray-900 dark:text-light-100" style={{ color: 'red' }}>
+              {addressInvalidMessage}
+            </label>
+          ) : (
+            true
+          )}
+        </div>
+
         {!billingSameAsShipping && (
           <>
             <div className="col-span-full pt-6">
@@ -176,6 +190,7 @@ const CheckoutForm = ({
             />
           </>
         )}
+
         <FormCheckbox
           checked={billingSameAsShipping}
           onChange={(checked) => setBillingSameAsShipping(checked)}

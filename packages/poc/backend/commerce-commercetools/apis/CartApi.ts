@@ -18,6 +18,7 @@ import {
   OrderFromCartDraft,
   PaymentDraft,
   PaymentUpdateAction,
+  GraphQLRequest,
 } from '@commercetools/platform-sdk';
 import { CartMapper } from '../mappers/CartMapper';
 import { LineItem } from '@Types/cart/LineItem';
@@ -37,6 +38,8 @@ import { CartPaymentNotFoundError } from '../errors/CartPaymentNotFoundError';
 import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeError';
 import { Context } from '@frontastic/extension-types';
 import { ProductApi } from './ProductApi';
+import axios from 'axios';
+import fetch from 'node-fetch';
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
@@ -451,6 +454,43 @@ export class CartApi extends BaseApi {
         throw new ExternalError({ status: error.code, message: error.message, body: error.body });
       });
   };
+
+  validateShippingAddress: (address: Address) => Promise<{
+    valid?: boolean, 
+    address?: {
+      line1?: string, 
+      line2?: string, 
+      line3?: string,
+      city?: string, 
+      postalCode?: string, 
+      region?: string, 
+      country?: string
+    }, 
+    errorMessage?: string,
+    addressValidation?: boolean
+  }> = async (address: Address) => {
+    const url: any = await this.requestBuilder()
+    .extensions()
+    .withKey({key: 'avalara-commercetools-connector-cartUpdateExtension'})
+    .get()
+    .execute()
+    .then(res => res.body.destination)
+    const checkAddressUrl = url.url + '/check-address'
+    const body = {
+      address: {
+        line1: address.streetName, 
+        line2: address.streetNumber,
+        city: address.city, 
+        postalCode: address.postalCode, 
+        region: address.state, 
+        country: address.country,
+        textCase: 'mixed'
+      }
+    };
+    return await fetch(checkAddressUrl, {method: "POST", headers: {
+      'Content-Type': 'application/json'}, body: JSON.stringify(body)})
+      .then(res => res.json())
+  }
 
   addPayment: (cart: Cart, payment: Payment) => Promise<Cart> = async (cart: Cart, payment: Payment) => {
     const locale = await this.getCommercetoolsLocal();
