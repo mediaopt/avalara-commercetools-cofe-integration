@@ -2,6 +2,7 @@ import { Discount } from './Discount';
 import { Variant } from '../product/Variant';
 import { Money } from '../product/Money';
 import { TaxedPrice } from './TaxedPrice';
+import { TaxRate } from './TaxRate';
 
 export interface LineItem {
   lineItemId?: string;
@@ -15,6 +16,7 @@ export interface LineItem {
   discounts?: Discount[];
   totalPrice?: Money;
   taxedPrice?: TaxedPrice;
+  taxRate?: TaxRate;
   variant?: Variant;
   isGift?: boolean;
   _url?: string;

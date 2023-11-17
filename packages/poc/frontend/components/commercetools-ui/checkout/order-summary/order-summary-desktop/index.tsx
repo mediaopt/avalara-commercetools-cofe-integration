@@ -81,6 +81,12 @@ const DesktopOrderSummary = ({
                       : StringHelpers.capitaliseFirstLetter(lineItem.variant.attributes.size)}
                   </p>
                 )}
+                {cart?.taxed && isAddressValid && (<div className="flex justify-between">
+            <dt>{formatCheckoutMessage({ id: 'lineItemTax', defaultMessage: `Sales Tax ${Math.round(lineItem.taxRate.amount*10000)/100} %` })}</dt>
+            <dd>
+              <Price price={lineItem.taxedPrice.totalTax || {}} className="text-gray-900 dark:text-light-100" />
+            </dd>
+          </div>)}
               </div>
               <div className="flex space-x-4">
                 <button
@@ -166,9 +172,15 @@ const DesktopOrderSummary = ({
               <Price price={selectedShipping?.rates?.[1]?.price || {}} className="text-gray-900 dark:text-light-100" />
             </dd>
           </div>
+          {cart?.taxed && isAddressValid && (<div className="flex justify-between">
+            <dt>{formatCheckoutMessage({ id: 'lineItemTax', defaultMessage: `Shipping Tax ${Math.round(cart.shippingInfo?.taxRate.amount*10000)/100} %` })}</dt>
+            <dd>
+              <Price price={cart.shippingInfo?.taxedPrice.totalTax || {}} className="text-gray-900 dark:text-light-100" />
+            </dd>
+          </div>)}
           {cart?.taxed && isAddressValid && (
             <div className="flex justify-between">
-              <dt>{formatCheckoutMessage({ id: 'tax', defaultMessage: 'Sales Tax' })}</dt>
+              <dt>{formatCheckoutMessage({ id: 'tax', defaultMessage: 'Total Tax' })}</dt>
               <dd>
                 <Price price={cart?.taxed?.tax} className="text-gray-900 dark:text-light-100" />
               </dd>
