@@ -20,6 +20,8 @@ export interface Props {
   account: Account;
   loggedIn: boolean;
   readonly shippingCountryOptions: ShippingCountryItem[];
+  readonly isAddressValid: boolean;
+  addressInvalidMessage: string;
 }
 
 const CheckoutForm = ({
@@ -28,6 +30,8 @@ const CheckoutForm = ({
   submitForm,
   data,
   isFormValid,
+  isAddressValid,
+  addressInvalidMessage,
   account,
   loggedIn,
   shippingCountryOptions,
@@ -55,12 +59,15 @@ const CheckoutForm = ({
     data: address.addressId,
   }));
 
+  const shipAddress = account?.addresses[0];
+  const billAddress = account?.addresses[0];
+
   //use billing address as shipping address
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
 
   useEffect(() => {
-    if (billingSameAsShipping && data.shippingAddress !== data.billingAddress) {
-      updateFormInput('shippingAddress', data.billingAddress);
+    if (billingSameAsShipping && shipAddress !== billAddress) {
+      updateFormInput('shippingAddress', billAddress.addressId);
     } else if (data.shippingAddress !== '') {
       updateFormInput('shippingAddress', '');
     }
@@ -108,6 +115,15 @@ const CheckoutForm = ({
           onChange={updateFormInput}
           containerClassName="col-span-full"
         />
+                <div className="col-span-full pt-8">
+          {!isAddressValid ? (
+            <label className="text-base font-medium text-gray-900 dark:text-light-100" style={{ color: 'red' }}>
+              {addressInvalidMessage}
+            </label>
+          ) : (
+            true
+          )}
+        </div>
         {!billingSameAsShipping &&
           (isGuestCheckout ? (
             <>

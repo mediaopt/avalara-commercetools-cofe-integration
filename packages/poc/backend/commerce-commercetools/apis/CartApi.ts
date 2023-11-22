@@ -95,7 +95,7 @@ export class CartApi extends BaseApi {
 
     const cartDraft: CartDraft = {
       currency: locale.currency,
-      country: locale.country,
+      country: 'US',
       locale: locale.language,
       customerId: account.accountId,
       taxMode: 'ExternalAmount',
@@ -151,7 +151,7 @@ export class CartApi extends BaseApi {
 
     const cartDraft: CartDraft = {
       currency: locale.currency,
-      country: locale.country,
+      country: 'US',
       locale: locale.language,
       anonymousId: anonymousId,
       taxMode: 'ExternalAmount',
@@ -480,7 +480,7 @@ export class CartApi extends BaseApi {
         line2: address.streetNumber,
         city: address.city, 
         postalCode: address.postalCode, 
-        region: address.state, 
+        region: address?.state, 
         country: address.country,
         textCase: 'mixed'
       }

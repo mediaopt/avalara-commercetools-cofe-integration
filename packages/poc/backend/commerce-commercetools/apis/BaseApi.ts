@@ -11,7 +11,7 @@ import { Token } from '@Types/Token';
 import { tokenHasExpired } from '../utils/Token';
 import crypto from 'crypto';
 
-const defaultCurrency = 'EUR';
+const defaultCurrency = 'USD';
 
 const localeRegex =
   /^(?<language>[a-z]{2,})(?:_(?<territory>[A-Z0-9]{2,}))?(?:\.(?<codeset>[A-Z0-9_+-]+))?(?:@(?<modifier>[A-Za-z]+))?$/;
@@ -516,11 +516,11 @@ export abstract class BaseApi {
     const country =
       pickCommercetoolsCountry(parsedLocale, language, project.countries) ??
       pickCommercetoolsCountry(parsedDefaultLocale, language, project.countries) ??
-      project.countries[0];
+      project.countries[2];
     const currency =
       pickCommercetoolsCurrency(parsedLocale, project.currencies) ??
       pickCommercetoolsCurrency(parsedDefaultLocale, project.currencies) ??
-      project.currencies[0];
+      project.currencies[1];
     return Promise.resolve({
       language,
       country,

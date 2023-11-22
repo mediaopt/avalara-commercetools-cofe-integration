@@ -71,12 +71,11 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
     shippingCity: '',
     shippingPostalCode: '',
     shippingCountry: '',
-    billingAddress: account?.addresses.find((address) => address.isDefaultBillingAddress)?.addressId ?? '',
-    shippingAddress: account?.addresses.find((address) => address.isDefaultShippingAddress)?.addressId ?? '',
+    billingAddress: account?.addresses[0].addressId ?? '38LewLFB',
+    shippingAddress: account?.addresses[0].addressId ?? '38LewLFB',
     invoiceId: '',
     pay: 'cc',
   });
-
   const updateFormInput = (propName: string, newValue: string) => {
     setCheckoutData({ ...checkoutData, [propName]: newValue });
   };
@@ -148,7 +147,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       })
       .concat((loggedIn ? loggedInScheme : guestScheme) as yup.ObjectSchema<ObjectShape>)
       .concat(checkoutData.pay === 'cc' ? ccScheme : (invoiceScheme as yup.ObjectSchema<ObjectShape>));
-
+      
     return scheme.isValidSync(checkoutData);
   };
 
@@ -204,7 +203,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       const res = await validateShippingAddress(shippingAddress || billingAddress);
       if (res?.valid === false) {
         setIsValidAddress(false);
-        setIsErrorMessage(res?.errorMessage || '');
+        setIsErrorMessage('Address validation failed! ' + res?.errorMessage || '');
       } else if (res?.valid || res?.addressValidation === false) {
         setIsValidAddress(true);
       }
@@ -254,20 +253,22 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
           {loggedIn ? (
             <CheckoutForm
               submitText={`${formatCheckoutMessage({
-                id: 'pay',
+                id: data?.shippingAddress && data?.shippingInfo && isValidAddress ? 'pay' : 'calculate',
                 defaultMessage: 'Pay',
               })} ${CurrencyHelpers.formatForCurrency(
                 CurrencyHelpers.addCurrency(
                   data?.taxed?.gross ?? data.sum,
                   data?.taxed?.gross
-                    ? { centAmount: 0, currencyCode: 'EUR' }
-                    : shippingMethods?.[1]?.rates?.[1]?.price || {},
+                    ? { centAmount: 0, currencyCode: 'USD' }
+                    : shippingMethods?.[1]?.rates?.[0]?.price || {},
                 ),
               )}`}
               updateFormInput={updateFormInput}
               submitForm={submitForm}
               data={checkoutData}
               isFormValid={isValid()}
+              isAddressValid={isValidAddress}
+              addressInvalidMessage={isErrorMessage}
               account={account}
               loggedIn={loggedIn}
               shippingCountryOptions={shippingCountryOptions}
@@ -281,8 +282,8 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
                 CurrencyHelpers.addCurrency(
                   data?.taxed?.gross && isValidAddress ? data?.taxed?.gross : data.sum,
                   (isValidAddress && data?.taxed?.gross) || data?.shippingInfo
-                    ? { centAmount: 0, currencyCode: 'EUR' }
-                    : shippingMethods?.[1]?.rates?.[1]?.price || {},
+                    ? { centAmount: 0, currencyCode: 'USD' }
+                    : shippingMethods?.[1]?.rates?.[0]?.price || {},
                 ),
               )}`}
               updateFormInput={updateFormInput}

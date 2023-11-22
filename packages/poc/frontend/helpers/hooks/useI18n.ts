@@ -7,7 +7,7 @@ type Translation = Record<Languages, string>;
 
 const useI18n = () => {
   const router = useRouter();
-  const [country] = useState('DE');
+  const [country] = useState('US');
 
   const locale = languageMapper[router.locale || router.defaultLocale];
 

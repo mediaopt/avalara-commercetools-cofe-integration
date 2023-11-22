@@ -176,7 +176,7 @@ const MobileOrderSummary = ({
               <p className="mt-6 flex items-center justify-between border-t border-gray-200 pt-6 text-sm font-medium text-gray-900">
                 <span className="text-base">{formatCheckoutMessage({ id: 'total', defaultMessage: 'Total' })}</span>
                 <span className="text-base">
-                  <Price price={CurrencyHelpers.addCurrency(cart.sum, selectedShipping?.rates?.[1]?.price)} />
+                  <Price price={CurrencyHelpers.addCurrency(cart.sum, selectedShipping?.rates?.[0]?.price)} />
                 </span>
               </p>
             </div>

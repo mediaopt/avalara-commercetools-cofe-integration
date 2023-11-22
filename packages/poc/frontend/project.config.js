@@ -4,7 +4,7 @@ const languageMapper = {
 };
 
 const currencyMapper = {
-  en: 'EUR',
+  en: 'USD',
   de: 'EUR',
 };
 

@@ -18,7 +18,7 @@ interface Props {
   readonly addressInvalidMessage: string;
 }
 
-const CheckoutForm = ({
+const GuestCheckoutForm = ({
   submitText,
   updateFormInput,
   submitForm,
@@ -46,11 +46,6 @@ const CheckoutForm = ({
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
 
   useEffect(() => {
-    if (billingSameAsShipping && data.shippingAddress !== data.billingAddress) {
-      updateFormInput('shippingAddress', data.billingAddress);
-    } else if (data.shippingAddress !== '') {
-      updateFormInput('shippingAddress', '');
-    }
   }, [billingSameAsShipping, data.billingAddress, updateFormInput]);
 
   //active payment method
@@ -224,4 +219,4 @@ const CheckoutForm = ({
   );
 };
 
-export default CheckoutForm;
+export default GuestCheckoutForm;
