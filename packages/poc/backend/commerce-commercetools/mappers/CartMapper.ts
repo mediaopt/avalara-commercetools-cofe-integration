@@ -203,7 +203,7 @@ export class CartMapper {
       },
       taxRate: {
         amount: commercetoolsShippingInfo?.taxRate?.amount,
-        includedInPrice: commercetoolsShippingInfo?.taxRate.includedInPrice
+        includedInPrice: commercetoolsShippingInfo?.taxRate?.includedInPrice
       },
       discounts:
         commercetoolsShippingInfo.discountedPrice?.includedDiscounts?.map((discount) => discount.discountedAmount) ??

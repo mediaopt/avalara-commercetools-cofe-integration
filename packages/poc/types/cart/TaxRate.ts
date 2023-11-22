@@ -1,5 +1,4 @@
 export interface TaxRate {
-    amount: number,
+    amount?: number,
     includedInPrice?: boolean
-    
 }
