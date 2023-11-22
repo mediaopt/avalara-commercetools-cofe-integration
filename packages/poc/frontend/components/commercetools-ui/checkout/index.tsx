@@ -147,7 +147,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       })
       .concat((loggedIn ? loggedInScheme : guestScheme) as yup.ObjectSchema<ObjectShape>)
       .concat(checkoutData.pay === 'cc' ? ccScheme : (invoiceScheme as yup.ObjectSchema<ObjectShape>));
-      
+
     return scheme.isValidSync(checkoutData);
   };
 

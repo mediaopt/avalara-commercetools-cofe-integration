@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 import { ExclamationCircleIcon } from '@heroicons/react/outline';
 import { Cart } from '@Types/cart/Cart';
 import { ShippingMethod } from '@Types/cart/ShippingMethod';
+import { Money } from '@Types/product/Money';
 import { CurrencyHelpers } from 'helpers/currencyHelpers';
 import { useFormat } from 'helpers/hooks/useFormat';
 import { StringHelpers } from 'helpers/stringHelpers';
 import Image from 'frontastic/lib/image';
 import Price from '../../../price';
-import { Money } from '@Types/product/Money';
 
 export interface Props {
   readonly cart: Cart;
@@ -101,13 +101,17 @@ const DesktopOrderSummary = ({
                   </button>
                 </div>
               </div>
-                              {cart?.taxed && isAddressValid && (<div className="flex justify-between">
-            <dt>{formatCheckoutMessage({ id: 'lineItemTax', defaultMessage: `Sales Tax` })
-            + `  ${Math.round(lineItem.taxRate.amount*10000)/100} %`}</dt>
-            <dd>
-              <Price price={lineItem.taxedPrice.totalTax || {}} className="text-gray-900 dark:text-light-100" />
-            </dd>
-          </div>)}
+              {cart?.taxed && isAddressValid && (
+                <div className="flex justify-between">
+                  <dt>
+                    {formatCheckoutMessage({ id: 'lineItemTax', defaultMessage: `Sales Tax` }) +
+                      `  ${Math.round(lineItem.taxRate.amount * 10000) / 100} %`}
+                  </dt>
+                  <dd>
+                    <Price price={lineItem.taxedPrice.totalTax || {}} className="text-gray-900 dark:text-light-100" />
+                  </dd>
+                </div>
+              )}
             </div>
           </li>
         ))}
@@ -128,13 +132,7 @@ const DesktopOrderSummary = ({
               <Price
                 price={cart.lineItems.reduce(
                   (prev, current) =>
-                    CurrencyHelpers.addCurrency(
-                      prev,
-                      CurrencyHelpers.multiplyCurrency(
-                        current.price,
-                        current.count,
-                      ),
-                    ),
+                    CurrencyHelpers.addCurrency(prev, CurrencyHelpers.multiplyCurrency(current.price, current.count)),
                   {
                     fractionDigits: cart.lineItems[0].price.fractionDigits,
                     centAmount: 0,
@@ -146,7 +144,9 @@ const DesktopOrderSummary = ({
             </dd>
           </div>
           <div className="flex justify-between">
-            <dt className="flex">{formatCartMessage({ id: 'discounts', defaultMessage: 'Discounts on net prices' })}</dt>
+            <dt className="flex">
+              {formatCartMessage({ id: 'discounts', defaultMessage: 'Discounts on net prices' })}
+            </dt>
             <dd>
               <Price
                 price={cart.lineItems.reduce(
@@ -172,7 +172,13 @@ const DesktopOrderSummary = ({
             <div className="flex justify-between">
               <dt>{formatCheckoutMessage({ id: 'tax', defaultMessage: 'Total Tax' })}</dt>
               <dd>
-                <Price price={cart?.lineItems.reduce((acc, curr) => CurrencyHelpers.addCurrency(acc, curr?.taxedPrice?.totalTax), {centAmount: 0, currencyCode: 'USD'} as Money)} className="text-gray-900 dark:text-light-100" />
+                <Price
+                  price={cart?.lineItems.reduce(
+                    (acc, curr) => CurrencyHelpers.addCurrency(acc, curr?.taxedPrice?.totalTax),
+                    { centAmount: 0, currencyCode: 'USD' } as Money,
+                  )}
+                  className="text-gray-900 dark:text-light-100"
+                />
               </dd>
             </div>
           )}
@@ -182,13 +188,20 @@ const DesktopOrderSummary = ({
               <Price price={selectedShipping?.rates?.[0]?.price || {}} className="text-gray-900 dark:text-light-100" />
             </dd>
           </div>
-          {cart?.taxed && isAddressValid && (<div className="flex justify-between">
-            <dt>{formatCheckoutMessage({ id: 'shippingTax', defaultMessage: `Shipping Tax` })
-            + `   ${Math.round(cart.shippingInfo?.taxRate.amount*10000)/100} %`}</dt>
-            <dd>
-              <Price price={cart.shippingInfo?.taxedPrice.totalTax || {}} className="text-gray-900 dark:text-light-100" />
-            </dd>
-          </div>)}
+          {cart?.taxed && isAddressValid && (
+            <div className="flex justify-between">
+              <dt>
+                {formatCheckoutMessage({ id: 'shippingTax', defaultMessage: `Shipping Tax` }) +
+                  `   ${Math.round(cart.shippingInfo?.taxRate.amount * 10000) / 100} %`}
+              </dt>
+              <dd>
+                <Price
+                  price={cart.shippingInfo?.taxedPrice.totalTax || {}}
+                  className="text-gray-900 dark:text-light-100"
+                />
+              </dd>
+            </div>
+          )}
 
           <div className="flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900 dark:text-light-100">
             <dt className="text-base">{formatCheckoutMessage({ id: 'total', defaultMessage: 'Total gross' })}</dt>

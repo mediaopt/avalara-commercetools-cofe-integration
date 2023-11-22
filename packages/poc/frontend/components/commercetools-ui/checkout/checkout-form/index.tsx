@@ -115,7 +115,7 @@ const CheckoutForm = ({
           onChange={updateFormInput}
           containerClassName="col-span-full"
         />
-                <div className="col-span-full pt-8">
+        <div className="col-span-full pt-8">
           {!isAddressValid ? (
             <label className="text-base font-medium text-gray-900 dark:text-light-100" style={{ color: 'red' }}>
               {addressInvalidMessage}

@@ -45,8 +45,7 @@ const GuestCheckoutForm = ({
   //use billing address as shipping address
   const [billingSameAsShipping, setBillingSameAsShipping] = useState(true);
 
-  useEffect(() => {
-  }, [billingSameAsShipping, data.billingAddress, updateFormInput]);
+  useEffect(() => {}, [billingSameAsShipping, data.billingAddress, updateFormInput]);
 
   //active payment method
   const [activePaymentMethod, setActivePaymentMethod] = useState('invoice');
