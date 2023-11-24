@@ -27,7 +27,7 @@ export interface UseCart {
       postalCode?: string;
       region?: string;
       country?: string;
-    };
+    }[];
     errorMessage?: string;
     addressValidation?: boolean;
   }>;

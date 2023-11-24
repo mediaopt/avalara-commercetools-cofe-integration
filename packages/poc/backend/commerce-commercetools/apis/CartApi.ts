@@ -463,7 +463,7 @@ export class CartApi extends BaseApi {
       postalCode?: string, 
       region?: string, 
       country?: string
-    }, 
+    }[], 
     errorMessage?: string,
     addressValidation?: boolean
   }> = async (address: Address) => {

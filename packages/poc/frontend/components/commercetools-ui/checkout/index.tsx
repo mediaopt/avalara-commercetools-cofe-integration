@@ -206,19 +206,21 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
           setIsValidAddress(false);
           setIsErrorMessage('Address validation failed! ' + res?.errorMessage || '');
         } else if (res?.valid || res?.addressValidation === false) {
-          res?.address[0] && res?.address[0]?.postalCode !== checkoutData?.shippingPostalCode
-            ? setIsSuggestedAddress(
-                `Your address is valid, suggested address changes: ${
-                  res.address[0].line1 +
-                  (res.address[0].line2 ? ', ' + res.address[0].line2 : '') +
-                  (res.address[0].line3 ? ', ' + res.address[0].line3 : ', ') +
-                  res.address[0].city +
-                  ' ' +
-                  res.address[0].region +
-                  ' ' +
-                  res.address[0].postalCode
-                }`,
-              )
+          res?.address.length !== 0
+            ? res?.address[0]?.postalCode !== checkoutData?.shippingPostalCode
+              ? setIsSuggestedAddress(
+                  `Your address is valid, suggested address changes: ${
+                    res.address[0].line1 +
+                    (res.address[0].line2 ? ', ' + res.address[0].line2 : '') +
+                    (res.address[0].line3 ? ', ' + res.address[0].line3 : ', ') +
+                    res.address[0].city +
+                    ' ' +
+                    res.address[0].region +
+                    ' ' +
+                    res.address[0].postalCode
+                  }`,
+                )
+              : true
             : true;
           setIsValidAddress(true);
         }
