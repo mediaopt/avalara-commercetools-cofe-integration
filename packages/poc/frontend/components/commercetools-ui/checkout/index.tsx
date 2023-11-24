@@ -206,7 +206,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
           setIsValidAddress(false);
           setIsErrorMessage('Address validation failed! ' + res?.errorMessage || '');
         } else if (res?.valid || res?.addressValidation === false) {
-          res?.address.length !== 0
+          res?.valid && res?.address?.length !== 0
             ? res?.address[0]?.postalCode !== checkoutData?.shippingPostalCode
               ? setIsSuggestedAddress(
                   `Your address is valid, suggested address changes: ${
