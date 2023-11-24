@@ -22,6 +22,7 @@ export interface Props {
   readonly shippingCountryOptions: ShippingCountryItem[];
   readonly isAddressValid: boolean;
   addressInvalidMessage: string;
+  suggestedAddress: string;
 }
 
 const CheckoutForm = ({
@@ -32,6 +33,7 @@ const CheckoutForm = ({
   isFormValid,
   isAddressValid,
   addressInvalidMessage,
+  suggestedAddress,
   account,
   loggedIn,
   shippingCountryOptions,
@@ -119,6 +121,13 @@ const CheckoutForm = ({
           {!isAddressValid ? (
             <label className="text-base font-medium text-gray-900 dark:text-light-100" style={{ color: 'red' }}>
               {addressInvalidMessage}
+            </label>
+          ) : (
+            true
+          )}
+          {suggestedAddress ? (
+            <label className="text-base font-medium text-gray-900 dark:text-light-100" style={{ color: 'green' }}>
+              {suggestedAddress}
             </label>
           ) : (
             true

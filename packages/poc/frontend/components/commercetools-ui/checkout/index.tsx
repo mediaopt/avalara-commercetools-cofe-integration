@@ -156,6 +156,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
   };
 
   const [isValidAddress, setIsValidAddress] = useState(true);
+  const [isSuggestedAddress, setIsSuggestedAddress] = useState('');
   const [isErrorMessage, setIsErrorMessage] = useState('');
 
   const submitForm = async () => {
@@ -200,13 +201,28 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
       billing: billingAddress,
       shipping: shippingAddress || billingAddress,
     }).then(async () => {
-      const res = await validateShippingAddress(shippingAddress || billingAddress);
-      if (res?.valid === false) {
-        setIsValidAddress(false);
-        setIsErrorMessage('Address validation failed! ' + res?.errorMessage || '');
-      } else if (res?.valid || res?.addressValidation === false) {
-        setIsValidAddress(true);
-      }
+      await validateShippingAddress(shippingAddress || billingAddress).then((res) => {
+        if (res?.valid === false) {
+          setIsValidAddress(false);
+          setIsErrorMessage('Address validation failed! ' + res?.errorMessage || '');
+        } else if (res?.valid || res?.addressValidation === false) {
+          res?.address[0] && res?.address[0]?.postalCode !== checkoutData?.shippingPostalCode
+            ? setIsSuggestedAddress(
+                `Your address is valid, suggested address changes: ${
+                  res.address[0].line1 +
+                  (res.address[0].line2 ? ', ' + res.address[0].line2 : '') +
+                  (res.address[0].line3 ? ', ' + res.address[0].line3 : ', ') +
+                  res.address[0].city +
+                  ' ' +
+                  res.address[0].region +
+                  ' ' +
+                  res.address[0].postalCode
+                }`,
+              )
+            : true;
+          setIsValidAddress(true);
+        }
+      });
     });
     await setShippingMethod(shippingMethods?.[1].shippingMethodId);
     //TODO: figure out logic here
@@ -269,6 +285,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
               isFormValid={isValid()}
               isAddressValid={isValidAddress}
               addressInvalidMessage={isErrorMessage}
+              suggestedAddress={isSuggestedAddress}
               account={account}
               loggedIn={loggedIn}
               shippingCountryOptions={shippingCountryOptions}
@@ -290,6 +307,7 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
               submitForm={submitForm}
               isAddressValid={isValidAddress}
               addressInvalidMessage={isErrorMessage}
+              suggestedAddress={isSuggestedAddress}
               data={checkoutData}
               isFormValid={isValid()}
               shippingCountryOptions={shippingCountryOptions}

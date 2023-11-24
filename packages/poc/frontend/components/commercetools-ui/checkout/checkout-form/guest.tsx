@@ -16,6 +16,7 @@ interface Props {
   readonly shippingCountryOptions: ShippingCountryItem[];
   readonly isAddressValid: boolean;
   readonly addressInvalidMessage: string;
+  readonly suggestedAddress: string;
 }
 
 const GuestCheckoutForm = ({
@@ -26,6 +27,7 @@ const GuestCheckoutForm = ({
   isFormValid,
   isAddressValid,
   addressInvalidMessage,
+  suggestedAddress,
   shippingCountryOptions,
 }: Props) => {
   //i18n messages
@@ -134,8 +136,14 @@ const GuestCheckoutForm = ({
           ) : (
             true
           )}
+          {suggestedAddress ? (
+            <label className="text-base font-medium text-gray-900 dark:text-light-100" style={{ color: 'green' }}>
+              {suggestedAddress}
+            </label>
+          ) : (
+            true
+          )}
         </div>
-
         {!billingSameAsShipping && (
           <>
             <div className="col-span-full pt-6">

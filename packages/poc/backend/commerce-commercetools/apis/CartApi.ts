@@ -467,6 +467,11 @@ export class CartApi extends BaseApi {
     errorMessage?: string,
     addressValidation?: boolean
   }> = async (address: Address) => {
+    if (address.country !== 'US') {
+      return {
+        addressValidation: false
+      }
+    }
     const url: any = await this.requestBuilder()
     .extensions()
     .withKey({key: 'avalara-commercetools-connector-cartUpdateExtension'})
