@@ -84,10 +84,15 @@ const OrderSummary = ({
           </dt>
           <dd>
             <Price
-              price={{
-                centAmount: productPrice,
-                currencyCode: cart?.sum?.currencyCode,
-              }}
+              price={cart.lineItems.reduce(
+                (prev, current) =>
+                  CurrencyHelpers.addCurrency(prev, CurrencyHelpers.multiplyCurrency(current.price, current.count)),
+                {
+                  fractionDigits: cart.lineItems[0].price.fractionDigits,
+                  centAmount: 0,
+                  currencyCode: cart.lineItems[0].price.currencyCode,
+                },
+              )}
               className="text-sm font-medium text-gray-900 dark:text-light-100"
             />
           </dd>
@@ -113,13 +118,21 @@ const OrderSummary = ({
           </dt>
           <dd>
             <Price
-              price={
+              price={cart.lineItems.reduce(
+                (prev, current) =>
+                  CurrencyHelpers.addCurrency(
+                    prev,
+                    CurrencyHelpers.subtractCurrency(
+                      current.totalPrice,
+                      CurrencyHelpers.multiplyCurrency(current.price, current.count),
+                    ),
+                  ),
                 {
-                  fractionDigits: 0,
-                  centAmount: discountPrice == 0 ? 0 : -discountPrice / 100,
-                  currencyCode: cart?.sum?.currencyCode,
-                } || {}
-              }
+                  fractionDigits: cart.lineItems[0].price.fractionDigits,
+                  centAmount: 0,
+                  currencyCode: cart.lineItems[0].price.currencyCode,
+                },
+              )}
               className="text-sm font-medium text-gray-900 dark:text-light-100"
             />
           </dd>
