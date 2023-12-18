@@ -47,7 +47,7 @@ export const validateShippingAddress = async (
     region?: string;
     country?: string;
   }[];
-  errorMessage?: string;
+  errorMessages?: any[];
   addressValidation?: boolean;
 }> => {
   const payload = {

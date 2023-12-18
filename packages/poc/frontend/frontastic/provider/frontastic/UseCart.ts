@@ -28,7 +28,7 @@ export interface UseCart {
       region?: string;
       country?: string;
     }[];
-    errorMessage?: string;
+    errorMessages?: any[];
     addressValidation?: boolean;
   }>;
   checkout: () => Promise<void>;

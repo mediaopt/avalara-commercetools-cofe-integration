@@ -98,7 +98,6 @@ export class CartApi extends BaseApi {
       country: 'US',
       locale: locale.language,
       customerId: account.accountId,
-      taxMode: 'ExternalAmount',
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -154,7 +153,6 @@ export class CartApi extends BaseApi {
       country: 'US',
       locale: locale.language,
       anonymousId: anonymousId,
-      taxMode: 'ExternalAmount',
       inventoryMode: 'ReserveOnOrder',
     };
 
@@ -464,7 +462,7 @@ export class CartApi extends BaseApi {
       region?: string, 
       country?: string
     }[], 
-    errorMessage?: string,
+    errorMessages?: any[],
     addressValidation?: boolean
   }> = async (address: Address) => {
     if (address.country !== 'US') {
@@ -822,7 +820,6 @@ export class CartApi extends BaseApi {
       'customerGroup',
       'anonymousId',
       'store',
-      'taxMode',
       'inventoryMode',
       'taxRoundingMode',
       'taxCalculationMode',
