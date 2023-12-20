@@ -3,7 +3,9 @@
 ## Prerequisites
 To test this code in a staging environment, you will need a [commercetools frontend](https://commercetools.com/products/frontend) studio, and a [commercetools merchant center](https://commercetools.com/products/business-tooling) with an admin scope dedicated [api client](https://docs.commercetools.com/getting-started/create-api-client). Save the api client access data into your frontend studio to connect your frontend to commercetools composable api. To set up a local staging environment, connected to your frontend studio, please follow [this](https://docs.commercetools.com/frontend-getting-started/developing-with-commercetools-frontend) guide. After that you will be able to test and play with the given code and see the changes instantly in your local environment.
 
-## About and Scope
+Alternatively, there is already a deployed frontend instance of the source code, which can be accessed under the 'About' section of this repository.
+
+## User guide
 In this repository you can find an example of how to integrate the Avalara Commercetools Connector in the checkout area for a correct tax calculation and display. To learn more about the connector functionality, see [here](https://projects.mediaopt.de/projects/mopt-ecomqe/wiki/Commercetools_documentation) and [here](https://projects.mediaopt.de/projects/mopt-ecomqe/wiki/Avalara_user_manual).
 Two things are fundamental for a successful integration of the connector functionality into your frontend application, which you can also identify directly in this example code:
 - you have to extend the frontend Cart Mapper to the properties that contain tax relevant information, since it is where the Avalara connector is writing tax information to. Those are `taxedPrice` and `taxedRate` for your line items and your shipping methods.You can also include cart's `taxedPrice` as well for easier calculations. Further, you can use this data for displaying calculated taxes to your customers after they have specified their shipping address and delivery method by directly accessing the frontend cart properties.
