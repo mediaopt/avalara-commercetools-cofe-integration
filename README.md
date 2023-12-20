@@ -4,8 +4,8 @@
 To test this code in a staging environment, you will need a [commercetools frontend](https://commercetools.com/products/frontend) studio, and a [commercetools merchant center](https://commercetools.com/products/business-tooling) with an admin scope dedicated [api client](https://docs.commercetools.com/getting-started/create-api-client). Save the api client access data into your frontend studio to connect your frontend to commercetools composable api. To set up a local staging environment, connected to your frontend studio, please follow [this](https://docs.commercetools.com/frontend-getting-started/developing-with-commercetools-frontend) guide. After that you will be able to test and play with the given code and see the changes instantly in your local environment.
 
 Alternatively, there is already a deployed frontend instance of the source code, which can be accessed under the 'About' section of this repository. You can use the following registered customer user for your tests: 
-Username: test@mail.de
-Password:  12345678
+- username: test@mail.de
+- password:  12345678
 
 ## User guide
 In this repository you can find an example of how to integrate the Avalara Commercetools Connector in the checkout area for a correct tax calculation and display. To learn more about the connector functionality, see [here](https://projects.mediaopt.de/projects/mopt-ecomqe/wiki/Commercetools_documentation) and [here](https://projects.mediaopt.de/projects/mopt-ecomqe/wiki/Avalara_user_manual).
