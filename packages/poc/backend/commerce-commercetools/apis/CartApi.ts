@@ -38,6 +38,7 @@ import { CartRedeemDiscountCodeError } from '../errors/CartRedeemDiscountCodeErr
 import { Context } from '@frontastic/extension-types';
 import { ProductApi } from './ProductApi';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 export class CartApi extends BaseApi {
   productApi: ProductApi;
@@ -452,44 +453,49 @@ export class CartApi extends BaseApi {
   };
 
   validateShippingAddress: (address: Address) => Promise<{
-    valid?: boolean, 
+    valid?: boolean;
     address?: {
-      line1?: string, 
-      line2?: string, 
-      line3?: string,
-      city?: string, 
-      postalCode?: string, 
-      region?: string, 
-      country?: string
-    }[], 
-    errorMessages?: any[],
-    addressValidation?: boolean
+      line1?: string;
+      line2?: string;
+      line3?: string;
+      city?: string;
+      postalCode?: string;
+      region?: string;
+      country?: string;
+    }[];
+    errorMessages?: any[];
+    addressValidation?: boolean;
   }> = async (address: Address) => {
     if (address.country !== 'US') {
       return {
-        addressValidation: false
-      }
+        addressValidation: false,
+      };
     }
     const url: any = await this.requestBuilder()
-    .extensions()
-    .withKey({key: 'avalara-commercetools-connector-cartUpdateExtension'})
-    .get()
-    .execute()
-    .then(res => res.body.destination)
-    const checkAddressUrl = url?.url + '/check-address/'
+      .extensions()
+      .withKey({ key: 'avalara-commercetools-connector-cartUpdateExtension' })
+      .get()
+      .execute()
+      .then((res) => res.body.destination);
+    const checkAddressUrl = url?.url + '/check-address/';
     const body = {
       address: {
-        line1: address.streetName, 
+        line1: address.streetName,
         line2: address.streetNumber,
-        city: address.city, 
-        postalCode: address.postalCode, 
-        region: address?.state, 
+        city: address.city,
+        postalCode: address.postalCode,
+        region: address?.state,
         country: address.country,
-        textCase: 'mixed'
-      }
+        textCase: 'mixed',
+      },
     };
-    return await axios.post(checkAddressUrl, body).then(res => res.data)
-  }
+    const token = jwt.sign(body.address, this.clientSettings.addressValidationKey, {
+      expiresIn: 5,
+    });
+    return await axios
+      .post(checkAddressUrl, body, { headers: { authorization: `Bearer ${token}` } })
+      .then((res) => res.data);
+  };
 
   addPayment: (cart: Cart, payment: Payment) => Promise<Cart> = async (cart: Cart, payment: Payment) => {
     const locale = await this.getCommercetoolsLocal();
@@ -804,7 +810,7 @@ export class CartApi extends BaseApi {
     const cartDraft: CartDraft = {
       currency: locale.currency,
       country: locale.country,
-      locale: locale.language
+      locale: locale.language,
     };
 
     // TODO: implement a logic that hydrate cartDraft with commercetoolsCart
