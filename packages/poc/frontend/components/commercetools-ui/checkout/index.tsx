@@ -205,7 +205,8 @@ const Checkout = ({ shippingCountryOptions }: Props) => {
         if (res?.valid === false) {
           setIsValidAddress(false);
           setIsErrorMessage(
-            'Address validation failed! ' + res?.errorMessages.reduce((acc, curr) => curr + ' ' + acc, '') || '',
+            'Address validation failed! ' +
+              res?.errorMessages.map((x) => x.details).reduce((acc, curr) => curr + ' ' + acc, '') || '',
           );
         } else if (res?.valid || res?.addressValidation === false) {
           res?.valid && res?.address?.length !== 0

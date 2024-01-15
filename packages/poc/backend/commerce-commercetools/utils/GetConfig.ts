@@ -13,6 +13,7 @@ export const getConfig = (context: Context, engine: string, locale: string | nul
     projectKey: getFromProjectConfig(`${prefix}_PROJECT_KEY`, context),
     productIdField: getFromProjectConfig(`${prefix}_PRODUCT_ID_FIELD`, context),
     categoryIdField: getFromProjectConfig(`${prefix}_CATEGORY_ID_FIELD`, context),
+    addressValidationKey: getFromProjectConfig(`${prefix}_ADDRESS_VALIDATION_API_KEY`, context),
   };
 
   if (!clientConfig.authUrl) {
