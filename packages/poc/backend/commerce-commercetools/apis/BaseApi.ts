@@ -402,6 +402,7 @@ export abstract class BaseApi {
   protected projectKey: string;
   protected productIdField: string;
   protected categoryIdField: string;
+  protected addressValidationKey: string;
   protected locale: string;
   protected defaultLocale: string;
   protected defaultCurrency: string;
@@ -423,6 +424,7 @@ export abstract class BaseApi {
     this.projectKey = this.clientSettings.projectKey;
     this.productIdField = this.clientSettings?.productIdField || 'key';
     this.categoryIdField = this.clientSettings?.categoryIdField || 'key';
+    this.addressValidationKey = this.clientSettings?.addressValidationKey || 'key';
 
     this.token = clientTokensStored.get(this.getClientHashKey());
   }

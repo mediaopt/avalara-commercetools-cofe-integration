@@ -477,7 +477,7 @@ export class CartApi extends BaseApi {
       .get()
       .execute()
       .then((res) => res.body.destination);
-    const checkAddressUrl = url?.url + '/check-address/';
+    const checkAddressUrl = url?.url + '/check-address';
     const body = {
       address: {
         line1: address.streetName,
@@ -489,11 +489,11 @@ export class CartApi extends BaseApi {
         textCase: 'mixed',
       },
     };
-    const token = jwt.sign(body.address, this.clientSettings.addressValidationKey, {
+    const token = jwt.sign(body.address, this.addressValidationKey, {
       expiresIn: 5,
     });
     return await axios
-      .post(checkAddressUrl, body, { headers: { authorization: `Bearer ${token}` } })
+      .post(checkAddressUrl, body, { headers: { authorization: `Bearer ${token}`} })
       .then((res) => res.data);
   };
 
