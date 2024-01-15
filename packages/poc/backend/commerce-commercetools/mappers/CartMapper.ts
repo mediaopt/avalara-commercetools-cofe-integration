@@ -383,7 +383,7 @@ export class CartMapper {
             LocalizedValue.getLocalizedValue(
               locale,
               defaultLocale,
-              commercetoolsDiscountedLineItemPortion.discount.obj?.name,
+              (commercetoolsDiscountedLineItemPortion.discount as any).obj?.name,
             ),
           );
         },
@@ -436,8 +436,8 @@ export class CartMapper {
       ),
     };
 
-    if (commercetoolsDiscountedLineItemPortion.discount.obj) {
-      const commercetoolsCartDiscount = commercetoolsDiscountedLineItemPortion.discount.obj;
+    if ((commercetoolsDiscountedLineItemPortion.discount as any).obj) {
+      const commercetoolsCartDiscount = (commercetoolsDiscountedLineItemPortion.discount as any).obj;
 
       discount = {
         ...discount,
